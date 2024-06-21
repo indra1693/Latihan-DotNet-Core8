@@ -56,11 +56,11 @@
             tableBody.empty(); // Clear previous rows if any
 
             for (var i = 0; i < maxNumber; i++) {
-                var randomNumber = getRandomNumber(18, 40);
-                var randomGender = getIdGender(1, 2);
-                var randomName = generateRandomName(25);
-                var randomHobi = getIdHobi();
-                var row = "<tr><td>" + ( i + 1 ) + "</td><td>" + randomName + "</td><td>" + randomGender + "</td><td>" + randomHobi + "</td><td>" + randomNumber + "</td></tr>";
+                const umur = getRandomNumber(18, 40);
+                const gender = getIdGender(1, 2);
+                const nama = generateRandomName(25);
+                const hobi = getIdHobi();
+                const row = "<tr><td>" + ( i + 1 ) + "</td><td>" + nama + "</td><td>" + gender + "</td><td>" + hobi + "</td><td>" + umur + "</td></tr>";
                 tableBody.append(row);
             }
         });
@@ -86,6 +86,38 @@
             }
             return randomName;
         }
+    });
+
+    $(document).ready(function () {
+        $('#submitButton').click(function () {
+            const persons = [];
+            $('#randomTable tbody tr').each(function () {
+            const id = parseInt($(this).find('td:eq(0)').text());
+                const umur = parseInt($(this).find('td:eq(4)').text());
+                const gender = parseInt($(this).find('td:eq(2)').text());
+                const nama = $(this).find('td:eq(1)').text()
+                const hobi = parseInt($(this).find('td:eq(3)').text());
+                persons.push({ Id: id, Nama: nama, IdGender: gender, IdHobi: hobi, Umur: umur});
+            });
+
+            if (persons.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("SavePersons","Persons")',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(persons),
+                    success: function () {
+                        alert('Data saved successfully!');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Error saving data.');
+                    }
+                });
+            } else {
+                alert('No data to save.');
+            }
+        });
     });
 </script>
 

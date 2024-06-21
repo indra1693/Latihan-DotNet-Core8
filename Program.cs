@@ -1,11 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Pomelo.EntityFrameworkCore.MySql;
+using sampleDataDummy.Data;
 using sampleDataDummy.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// konfigurasi dbcontext dengan sql server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 29))));
 
 var app = builder.Build();
 

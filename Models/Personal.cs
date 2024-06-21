@@ -10,10 +10,3 @@ public class Personal
     public string IdHobi { get; set; }
     public int Umur { get; set; }
 }
-
-public class PersonalDbContext : DbContext
-{
-    public PersonalDbContext(DbContextOptions<PersonalDbContext> options ): base(options) { }
-    
-    public DbSet<Personal> Personals { get; set; }
-}
